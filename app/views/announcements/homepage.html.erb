@@ -1,0 +1,64 @@
+<div class="homepage">
+    <div class="col-md-9">
+      <% @ads.in_groups_of(3, false).each do |group| %>
+        <div class="row">
+          <% group.each do |ad| %>
+            <div class="col-md-4">
+              <div class="panel panel-default panel-ad">
+                <div class="row">
+                  <div class="col-md-12">
+                    <% if (!ad.images.blank?) %>
+                            <%= image_tag ad.images.first.thumb.url %>
+                    <% end %>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <p class="ad-title"><%= ad.title %></p>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <p class="ad-price">R$ <%= ad.price %></p>
+                  </div>
+                  <div class="col-md-4">
+                    <%= link_to 'Detalhes', ad, :class => "btn btn-default ad-button" %></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="col-md-3">
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Pesquisar Anúncio</h3>
+        </div>
+        <div class="panel-body">
+          <%= form_tag("/ads/homepage", method: "post") do %>
+            <%= text_field_tag(:search_term) %>
+            <%= submit_tag("Buscar") %>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Categorias</h3>
+        </div>
+        <div class="panel-body">
+          <ul>
+            <% Category.all.each do |category| %>
+              <li><%= link_to category.description, homepage_ads_path(category_id: category.id) %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
