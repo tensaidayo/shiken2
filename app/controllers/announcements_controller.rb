@@ -1,5 +1,7 @@
 class AnnouncementsController < ApplicationController
   before_action :set_announcement, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:homepage, :show]
+  load_and_authorize_resource :except => [:homepage, :show]
 
   # GET /announcements
   # GET /announcements.json
@@ -25,6 +27,7 @@ class AnnouncementsController < ApplicationController
   # POST /announcements.json
   def create
     @announcement = Announcement.new(announcement_params)
+    @announcement.user = current_user
 
     respond_to do |format|
       if @announcement.save
